@@ -1,0 +1,19 @@
+{include file="public:header,public:nav"}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="page-header">
+					<h3>用户中心</h3>
+				</div>
+				<div>
+					{:session('user_id')}
+				</div>
+				
+			</div>
+
+			{include file="public:right"}
+
+		</div>
+	</div>
+
+{include file="public:footer"}

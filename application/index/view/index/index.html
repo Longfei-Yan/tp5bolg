@@ -3,7 +3,9 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="page-header">
-					<h3>全部文章</h3>
+					{volist name="menus" id="vo"}
+					<h3>{$vo.name}</h3>
+					{/volist}
 				</div>
 				<div class="doc-list">
 					文章列表内容区域

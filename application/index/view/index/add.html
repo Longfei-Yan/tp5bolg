@@ -1,0 +1,46 @@
+{include file="public:header,public:nav"}
+{load href="__STATIC__/wangEditer/css/wangEditor.min.css"}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="page-header">
+					<h3>发布文章</h3>
+				</div>
+				<form method="post" action="{:url('index/index/save')}" enctype="multipart/form-data" class="add_form">
+				<input type="hidden" name="uid" value="{:USER_ID}">
+					<div class="form-group">
+						<label for="">文章标题</label>
+						<input type="text" name="title" class="form-control" placeholder="请输入文章标题">
+					</div>
+
+					<div class="form-group">
+						<label for="">文章分类</label>
+						<select class="form-control" name="document_category_id">
+							{volist name="catesLists" id="vo"}
+								<option value="{$vo.id}">{$vo.name}</option>
+							{/volist}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="">文章内容</label>
+						<textarea class="form-control" placeholder="请输入文章内容" name="content" id="public_content"></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="">文章图片</label>
+						<input type="file" name="img_path" id="img_path">
+						<p class="help-block"></p>
+					</div>
+					
+					<button type="submit" class="btn btn-default login_btn">保存文章</button>
+					<div class="err_tips"></div>
+				</form>
+			</div>
+
+{include file="public:right"}
+
+		</div>
+	</div>
+
+{include file="public:footer"}

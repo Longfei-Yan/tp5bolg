@@ -10,3 +10,12 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+//getCategoryName
+if(!function_exists('getCategoryName'))
+{
+	function getCategoryName($id)
+	{
+		return db('document_category')->where('id='.$id)->value('name');
+	}
+}

@@ -11,7 +11,7 @@ class Document extends Validate
 {
 	//验证规则
 	protected $rule = [
-		'title' => ['require','length'=>'1.30'],
+		'title' => ['require'],
 		'document_category_id' => ['require'],
 		'content' => ['require', 'length'=>'1,30000'],
 		'uid' => ['require'],

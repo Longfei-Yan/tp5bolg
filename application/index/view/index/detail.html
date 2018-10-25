@@ -1,0 +1,33 @@
+{include file="public:header,public:nav"}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="page-header">
+           	 		<h3>{$info.title}</h3>
+				</div>
+
+					<p>作者：{$info.uid|getUserName}
+						发布时间：{$info.create_time|date='Y-m-d',###}
+						点击量：{$info.pv}
+					</p>
+					<div>
+						{$info.content}
+					</div>
+					<div>
+						{if condition="$is_fav eq 1"}
+						<a class="btn btn-info fav_btn" uid="{:USER_ID}" document_id="{$info.id}">已收藏</a>
+						{else/}
+						<a class="btn btn-default fav_btn" uid="{:USER_ID}" document_id="{$info.id}">收藏</a>
+						{/if}
+						
+					</div>
+
+			</div>
+
+{include file="public:right"}
+
+		</div>
+	</div>
+
+{include file="public:footer"}
+

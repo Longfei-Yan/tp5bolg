@@ -8,12 +8,18 @@
     {load href="__STATIC__/wangEditer/js/wangEditor.min.js"}
 
     <script type="text/javascript">
-
+    $(function () {
         //初始化富文本编辑器
-        $(function () {
+        var _public_content = $('public_content');
+        if(_public_content.attr('id') != undefined)
+        {
+            //发布文章初始化富文本插件
             var editor = new wangEditor('public_content');
             editor.create();
-        });
+        }
+        
+            
+    
 
     	//用户提交
     	$(function(){
@@ -63,6 +69,52 @@
                 }
           });
         });
+
+        //用户收藏
+        $('.fav_btn').click(function(){
+            var _uid = $(this).attr('uid');
+            var _document_id = $(this).attr('document_id');
+
+            var _self = $(this);
+
+            //用户登陆的请款下进行收藏/取消收藏的操作
+            if(_uid && _document_id)
+            {
+                $.post(
+                    "{:url('index/index/fav')}",
+                    {
+                        uid:_uid,
+                        document_id:_document_id,
+                        time:new Date().getTime()
+                    },
+                    function(msg)
+                    {
+                        if(msg.status)
+                        {   
+                            if(msg.type==1)
+                            {
+                                _self.text('已收藏');
+                                _self.attr('class','btn btn-info fav_btn');
+                            }
+                            else
+                            {
+                                 _self.text('收藏');
+                                _self.attr('class','btn btn-default fav_btn');
+                            }
+                           
+                        }
+                        else
+                        {
+                            alert(msg.msg);
+                        }
+                    });
+                
+            }
+
+        });
+    });
+
+
 
     </script>
   </body>

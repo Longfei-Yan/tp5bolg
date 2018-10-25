@@ -238,4 +238,13 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+    //状态类型
+    'STATUS_LIST' => [-1=>'删除', 0=>'禁用', 1=>'正常'],
+
+    //博客名称
+    'BLOG_NAME' => 'MyTP5Bolg',
+
+    //每页的分页条数,这是自定义的，也可以使用上面定义好的
+    'PAGE_NUM_SET' => 2,
 ];

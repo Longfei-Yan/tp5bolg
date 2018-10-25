@@ -3,13 +3,40 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="page-header">
+					{if condition="!$category_id"}
+           	 		<h3>{$page_header|default='全部'}</h3>
+          			{else/}
 					{volist name="menus" id="vo"}
 					<h3>{$vo.name}</h3>
 					{/volist}
+					{/if}
 				</div>
-				<div class="doc-list">
-					文章列表内容区域
+
+				{empty name="_list"}
+				<h4>暂无结果</h4>
+				{else /}
+				{volist name="_list" id="vo"}
+				<div class="doc-list" style="overflow: hidden; margin-bottom: 15px ">
+					<div class="bolg-content">
+						<img src="/tp5/public/uploads/{$vo.img_path}" class="img-rounded" alt="" style="float: left; width: 100px;">
+						<div class="content-detail">
+							<h4><a href="{:url('index/index/detail', array('id'=>$vo.id))}">{$vo.title}</a></h4>
+							<div>
+								{:getDocBody($vo.content)}
+							</div>
+							<p>作者：{$vo.uid|getUserName}
+								发布时间：{$vo.create_time|date='Y-m-d',###}
+								点击量：{$vo.pv}
+							</p>
+						</div>
+					</div>
 				</div>
+				{/volist}
+	
+				{$_list->render()}
+
+				{/empty}
+
 			</div>
 
 {include file="public:right"}

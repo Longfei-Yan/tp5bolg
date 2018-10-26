@@ -112,6 +112,29 @@
             }
 
         });
+
+        //发表评论
+        $('.submit_commit').click(function(){
+            var doc_id = $(".commit_form").find('input[name="document_id"]').val();
+            $.ajax({
+                type: 'post',
+                url: "{:url('index/index/add_commit')}",
+                data: $(".commit_form").serialize(),
+                success: function(data){
+                    if(data.status == 1)
+                    {
+                        $('.err_tips').html(data.msg);
+                        //更新评论的列表
+                        loadCommentList(doc_id);
+                    }
+                    else
+                    {
+                        $('.err_tips').html(data.msg);
+                    }
+                }
+            });
+        });
+
     });
 
 

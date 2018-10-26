@@ -3,6 +3,8 @@
 					<h3>热门动态</h3>
 				</div>
 				<ul>
-					<li><a href="#">列表........</a></li>
+					{volist name="doc_time_list" id="vo"}
+					<li><a href="{:url('index/index/index',array('publish_date'=>$vo['publish_date']))}">{$vo.publish_date}（{$vo.doc_num}）</a></li>
+					{/volist}
 				</ul>
 			</div>

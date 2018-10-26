@@ -246,5 +246,5 @@ return [
     'BLOG_NAME' => 'MyTP5Bolg',
 
     //每页的分页条数,这是自定义的，也可以使用上面定义好的
-    'PAGE_NUM_SET' => 2,
+    'PAGE_NUM_SET' => 10,
 ];

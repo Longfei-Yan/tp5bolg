@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\common\controller\Base;
 use think\Db;
 use app\common\model\Document;
+use app\common\model\DocumentComments;
 
 class Index extends Base
 {	
@@ -25,16 +26,25 @@ class Index extends Base
 
         //接受用户搜索的关键字
         $keywords = input('param.keywords', '', 'trim');
-
         if($keywords != '')
         {
             $map['title'] = ['like', '%'.$keywords.'%'];
             $this->assign('page_header', '关键字：'.$keywords);
         }
+        elseif($publish_date=input('param.publish_date'))
+        {
+            $this->assign('page_header','时间：'.$publish_date);
+        }
 
+        //展示当天的数据
+        $publish_date = input('param.publish_date');
+        if($publish_date)
+        {
+            $map['create_time'] = ['between', [strtotime($publish_date), strtotime($publish_date) + (60*60*24)]];
+            $page_header = '时间：'.$publish_date;
+        }
 
-    	//基本的文章列表查询,删除$map = ['status'=>1];在顶端定义全局变量$map
-    	
+    	//基本的文章列表查询,删除$map = ['status'=>1];在顶端定义全局变量$map	
     	$lists = Db::name('document')->
         where($map)->
         order('create_time', 'desc')->
@@ -148,11 +158,14 @@ class Index extends Base
         //每次pv+1
         Db::name('document')->where($map)->setInc('pv');
 
+
+
         $this->assign('info', $info);
-        $this->assign('title', '详情页'.$info['title']);
+        $this->assign('title', '详情页-'.$info['title']);
         return $this->fetch();
     }
 
+    //收藏
     public function fav()
     {
         //请求判断
@@ -189,6 +202,61 @@ class Index extends Base
         }
         return ['status'=>1, 'msg'=>'操作成功！', 'type' => $type];
     }
+
+    //发布评论
+    public function add_commit()
+    {
+        $model = new DocumentComments();
+
+        //5秒内不能重复发 cookie
+        $c_name = 'doc_'.USER_ID.'_'.input('param.document_id');
+        if(cookie($c_name))
+        {
+            if(time() - cookie($c_name) < 15)
+            {
+                return ['status'=>0, 'msg'=>'发布评论间隔时间太短！'];
+            }
+            else
+            {
+                cookie($c_name, time(), time()+60);
+            }
+        }
+        else
+        {
+            cookie($c_name, time(), time()+60);
+        }
+        if($model->allowField(true)->validate(true)->save(input('post.')))
+        {
+            return ['status'=>1, 'msg'=>'发布评论成功！'];
+        }
+        else
+        {
+            return ['status'=>0, 'msg'=>$model->getError()];
+        }
+    }
+
+    //ajax加载评论的列表
+    public function getDocCommentList()
+    {
+        if(request()->isAjax())
+        {
+
+            $page_set = [
+                'type'      => 'bootstrap',
+                'var_page'  => 'page',
+                'list_rows' => 5,
+                'path' => url('detail', array('id'=>input('param.doc_id'))),
+            ];
+
+            $this->assign('comment_list',Db::name('document_comments')->
+            where(['document_id'=>input('param.doc_id'),'status'=>1])->
+            order('create_time','desc')->
+             paginate($page_set) );
+        }
+
+        return $this->fetch();
+    }
+
 
 
 }

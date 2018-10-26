@@ -18,6 +18,9 @@ class Base extends Controller
 		//分类列表的变量置换
 		$this->assign('menus', $this->showMenu());
 
+		// 时间分组
+		$this->getDocTimeGroupList();
+
 		//当前用户选择的cid,变量置换到模板中
 		$this->assign('category_id', input('param.category_id'), '');
 	}
@@ -47,5 +50,19 @@ class Base extends Controller
     	->where($map)
     	->order('sort', 'asc')
     	->select();
+	}
+
+	//获取最近七天文章发布的时间集合和当天发布的文章数量
+	public function getDocTimeGroupList()
+	{
+		//最近七天
+		$limit_time = time() - 7*24*60*60;
+		$this->assign('doc_time_list', Db::name('document')
+			->field("FROM_UNIXTIME(create_time,'%Y-%m-%d') as publish_date,COUNT(id) as doc_num")
+			->where(['status'=>1, 'create_time'=>['egt',$limit_time]])
+			->group('publish_date')
+			->order('publish_date', 'desc')
+			->select()
+			);
 	}
 }

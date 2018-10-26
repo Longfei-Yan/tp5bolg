@@ -1,4 +1,5 @@
 {include file="public:header,public:nav"}
+{load href="__STATIC__/jquery/jquery.min.js"}
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
@@ -21,6 +22,43 @@
 						{/if}
 						
 					</div>
+
+					<hr/>
+					<h4>文章评论</h4>
+					{if condition="!USER_ID"}
+					<p>请<a href="{:url('index/user/login')}">登录</a>后再发布评论</p>
+					{else /}
+					<form class="commit_form">
+						<input type="hidden" name="uid" value="{:USER_ID}">
+						<input type="hidden" name="document_id" value="{$info.id}">
+						<textarea class="form-control" name="content" cols="30" rows="3" placeholder="来说点什么吧"></textarea>
+						<input type="button" class="btn btn-default submit_commit" value="发表评论">
+						<div class="err_tips"></div>
+					</form>
+					{/if}
+
+					<div class="show_comment_list">
+						正在加载中......
+					</div>
+					<script type="text/javascript">
+						//异步加载文章的评论列表
+						function loadCommentList(doc_id,page)
+						{
+							if(doc_id)
+							{
+								$.get("{:url('getDocCommentList')}",{
+									doc_id:doc_id,
+									page:page,
+									time:new Date().getTime()
+								},function(msg){
+									$('.show_comment_list').html(msg);
+								});
+							}
+						}
+
+						//文章每次刷新（加载）都执行此方法
+						loadCommentList("{$info.id}", "{:input('param.page'， 1)}");
+					</script>
 
 			</div>
 

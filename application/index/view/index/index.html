@@ -6,9 +6,9 @@
 					{if condition="!$category_id"}
            	 		<h3>{$page_header|default='全部'}</h3>
           			{else/}
-					{volist name="menus" id="vo"}
-					<h3>{$vo.name}</h3>
-					{/volist}
+					
+					<h3>{$menus.1.name}</h3>
+					
 					{/if}
 				</div>
 

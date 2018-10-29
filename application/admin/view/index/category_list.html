@@ -1,0 +1,63 @@
+{include file="public:header,public:nav"}
+	<div class="">	<!-- container -->
+		<div class="row">
+
+
+{include file="public:left"}
+
+			<div class="col-md-9">
+
+				<ol class="breadcrumb">
+				  <li><a href="#">文章管理</a></li>
+				  
+				  <li class="active">文章分类</li>
+				</ol>
+				
+				<a href="{:url('index/add_category')}" class="btn btn-info">新增</a>
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>UID</th>
+						<th>分类名称</th>
+						<th>排序</th>
+						<th>创建时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					{volist name="_list" id="vo"}
+					<tr>
+						<th scope="row">{$vo.id}</th>
+						<td>{$vo.name}</td>
+						<td>{$vo.sort|default='--'}</td>
+						<td>{$vo.create_time|date='Y-m-d H:i', ###}</td>
+						<td>{$vo.status|getStatusTitle}</td>
+						<td>
+								{if condition="$vo['status'] eq 1"}
+								<a href="{:url('index/setCategoryStatus', array('id'=>$vo['id'], 'status'=>0))}">禁用</a>
+								{else/}
+								<a href="{:url('index/setCategoryStatus', array('id'=>$vo['id'], 'status'=>1))}">启用</a>
+								{/if}
+								<a href="{:url('index/edit_category', array('id'=>$vo['id'], 'is_admin'=>0))}">编辑</a>
+								<a href="{:url('index/setCategoryStatus', array('id'=>$vo['id'], 'status'=>-1))}">删除</a>
+
+						</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+
+				<!-- 分页 -->
+				{$_list->render()}
+
+				
+
+			</div>
+
+
+		</div>
+	</div>
+
+{include file="public:footer"}

@@ -99,7 +99,7 @@ class Index extends Base
 	        if($info){
 	        	//上传成功保存在提交数据中去
 	            // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
-	            $data['img_path'] = $info->getSaveName();
+	            $data['img_path'] = str_replace("\\", "/", $info->getSaveName());
 	        }else{
 	            // 上传失败获取错误信息
 	            $this->error($file->getError());

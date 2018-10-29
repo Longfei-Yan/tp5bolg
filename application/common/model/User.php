@@ -61,6 +61,6 @@ class User extends Model
 		session('user_id' , $userinfo->data['id']);
 		session('user_info' , $userinfo->data);
 
-		return ['status' => 1, 'msg' => '用户登录成功！正常跳转...'];
+		return ['status' => 1, 'msg' => '用户登录成功！正在跳转...'];
 	}
 }

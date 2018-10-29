@@ -1,0 +1,71 @@
+{include file="public:header,public:nav"}
+	<div class="">	<!-- container -->
+		<div class="row">
+
+
+{include file="public:left"}
+
+			<div class="col-md-9">
+
+				<ol class="breadcrumb">
+				  <li><a href="#">文章管理</a></li>
+				  
+				  <li class="active">文章列表</li>
+				</ol>
+
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>UID</th>
+						<th>缩略图</th>
+						<th>标题</th>
+						<th>内容</th>
+						<th>pv</th>
+						<th>发布人</th>
+						<th>发布时间</th>
+						<th>评论管理</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					{volist name="_list" id="vo"}
+					<tr>
+						<th scope="row">{$vo.id}</th>
+						<td>
+							<a href="/tp5/public/uploads/{$vo.img_path}" target="_blank"><img src="/tp5/public/uploads/{$vo.img_path}" style="height: 30px"></a>
+						</td>
+						<td>{$vo.title}</td>
+						<td>{$vo.content}</td>
+						<td>{$vo.pv}</td>
+						<td>{$vo.uid}</td>
+						<td>{$vo.create_time|date='Y-m-d H:i', ###}</td>
+						<td>{$vo.is_hot}</td>
+						<td>{$vo.status|getStatusTitle}</td>
+						<td>
+							{if condition="$vo['status'] eq 1"}
+								<a href="{:url('index/setDocumentStatus', array('id'=>$vo['id'], 'status'=>0))}">禁用</a>
+								{else/}
+								<a href="{:url('index/setDocumentStatus', array('id'=>$vo['id'], 'status'=>1))}">启用</a>
+								{/if}
+								<a href="{:url('index/index/detail', array('id'=>$vo['id'], 'is_admin'=>0))}" target="_blank">预览</a>
+								<a href="{:url('index/setDocumentStatus', array('id'=>$vo['id'], 'status'=>-1))}">删除</a>
+						</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+
+				<!-- 分页 -->
+				{$_list->render()}
+
+				
+
+			</div>
+
+
+		</div>
+	</div>
+
+{include file="public:footer"}

@@ -236,7 +236,7 @@ return [
     'paginate'               => [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
-        'list_rows' => 15,
+        'list_rows' => 7,
     ],
 
     //状态类型
@@ -246,5 +246,8 @@ return [
     'BLOG_NAME' => 'MyTP5Bolg',
 
     //每页的分页条数,这是自定义的，也可以使用上面定义好的
-    'PAGE_NUM_SET' => 10,
+    'PAGE_NUM_SET' => 3,
+
+    //超级管理员
+    'ADMIN_ID' => 1,
 ];

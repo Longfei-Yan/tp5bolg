@@ -23,6 +23,74 @@ class Base extends Controller
 
 		//当前用户选择的cid,变量置换到模板中
 		$this->assign('category_id', input('param.category_id'), '');
+
+		//初始化一些常量
+		define('CONTROLLER_NAME',Request::instance()->controller());
+		define('MODULE_NAME',Request::instance()->module());
+		define('ACTION_NAME',Request::instance()->action());
+
+		//检测已经登录的用户是否拥有后台访问的权限
+		$this->checkAdminUserAuth();
+	}
+
+	//获取列表的方法
+	public function lists($model_name = '', $map = [], $order = 'create_time desc')
+	{
+		if($model_name && !empty($map))
+		{
+			return Db::name($model_name)
+			->where($map)
+			->paginate(config('paginate'));
+		}
+
+		return false;
+	}
+
+	//修改状态的方法
+	public function setStatus($model_name,$id=0,$status=0)
+	{
+		if($model_name)
+		{
+			$map['id'] = $id;
+			$data['status'] = $status;
+			if(Db::name($model_name)->where($map)->update($data))
+			{
+
+				return $this->success('修改状态成功！');
+			}
+		}
+
+		return $this->error('修改状态失败！');
+
+
+	}
+
+	//如果是管理后台，则判断当前用户是否有权限
+	private function checkAdminUserAuth()
+	{
+		if(MODULE_NAME == 'admin')
+		{
+			//无需验证控制器User
+			if(CONTROLLER_NAME == 'User')
+			{
+				return true;
+			}
+
+			//用户登录验证
+			if(!USER_ID)
+			{	
+				$this->redirect(url('admin/user/login'));
+			}
+
+			//用户权限验证
+			if(session('user_info.is_admin') != 1)
+			{
+				session('user_id', NULL);
+				session('user_info', NULL);
+				$this->error('没有后台管理的权限！',url('user/login'));
+			}
+		}
+		return true;
 	}
 
 	//用户是否已经登录的检测

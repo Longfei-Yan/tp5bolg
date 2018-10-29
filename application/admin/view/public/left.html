@@ -1,0 +1,26 @@
+			<div class="col-md-2">
+			<ul class="nav nav-pills nav-stacked">
+				<li class="nav-header"><h4>用户管理</h4></li>
+				<li role="" {if condition="$show_type eq 'user_list'"}class="active"{/if}>
+					<a href="{:url('index/index')}">用户列表</a>
+				</li>
+			</ul>
+			<ul class="nav nav-pills nav-stacked">
+				<li class="nav-header"><h4>文章管理</h4></li>
+				<li role="" {if condition="$show_type eq 'category_list'"}class="active"{/if}>
+					<a href="{:url('index/category_list')}">文章分类</a>
+				</li>
+				<li role="" {if condition="$show_type eq 'document_list'"}class="active"{/if}>
+					<a href="{:url('index/document_list')}">文章列表</a>
+				</li>
+			</ul>
+			<ul class="nav nav-pills nav-stacked">
+				<li class="nav-header"><h4>系统管理</h4></li>
+				<li role=""{if condition="$show_type eq 'website'"}class="active"{/if}>
+					<a href="{:url('System/index')}">网站管理</a>
+				</li>
+			</ul>
+
+
+
+			</div>

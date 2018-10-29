@@ -17,7 +17,7 @@ if(!function_exists('getStatusTitle'))
 	function getStatusTitle($id)
 	{
 		$list = config('STATUS_LIST');
-		return $list['$id'];
+		return $list[$id];
 	}
 }
 

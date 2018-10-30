@@ -180,5 +180,36 @@ class Index extends Base
 			);
 	}
 
+	//评论管理
+	public function comment_list()
+	{	
+		//文章的id
+		$id = input('param.id');
+		//验证
+		if(!$id)
+		{
+			$this->error('参数错误！');
+		}
+		//查询条件的构建
+		$map = [
+			'document_id' => $id,
+			'status' => ['>',-1]
+		];
+
+		$this->assign('_list',$this->lists('document_comments', $map));
+		$this->assign('show_type', 'document_list');
+		$this->assign('title', '文章评论管理');
+		return $this->fetch();
+	}
+
+	//修改文章评论的状态
+	public function setDocumentCommentStatus()
+	{
+		return $this->setStatus(
+			'document_comments', 
+			input('param.id'), 
+			input('param.status')
+			);	
+	}
 
 }

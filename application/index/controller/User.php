@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use app\common\controller\Base;
 use app\common\model\User as UserModel;
+use think\Db;
 
 class User extends Base
 {
@@ -12,6 +13,12 @@ class User extends Base
 	 */
 	public function reg()
 	{
+		//检测是否开启注册
+		$website = Db::name('website')->find();
+		if(!$website['is_reg'])
+		{
+			$this->error('注册功能已经关闭！',url('index/index'));
+		}
 		$this->assign('title','用户注册');
 		return $this->fetch();
 	}

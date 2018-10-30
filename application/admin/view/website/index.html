@@ -1,0 +1,67 @@
+{include file="public:header,public:nav"}
+	<div class="">	<!-- container -->
+		<div class="row">
+
+
+{include file="public:left"}
+
+			<div class="col-md-9">
+
+				<ol class="breadcrumb">
+				  <li><a href="#">系统管理</a></li>
+				  
+				  <li class="active">网站设置</li>
+				</ol>
+
+				<form action="{:url('save',array('id'=>$info['id']))}" method="post" class="form edit_form">
+				
+				<div class="form-group">
+					<label for="">网站名称</label>
+					<input type="text" name="web_name" class="form-control" placeholder="输入网站名称" value="{$info.web_name}">
+				</div>
+
+				<div class="form-group">
+					<label for="">网站关键字</label>
+					<textarea name="web_keywords" cols="80" rows="5" class="form-control">{$info.web_keywords}</textarea>
+				</div>
+				
+				<div class="form-group">
+					<label for="">开启网站</label>
+					<div>
+						是：
+						<input type="radio" name="is_open" value="1" {if condition="$info['is_open'] eq 1"}checked{/if}>
+						否：
+						<input type="radio" name="is_open" value="0" {if condition="$info['is_open'] eq 0"}checked{/if}>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="">开启注册</label>
+					<div>
+						是：
+						<input type="radio" name="is_reg" value="1" {if condition="$info['is_reg'] eq 1"}checked{/if}>
+						否：
+						<input type="radio" name="is_reg" value="0" {if condition="$info['is_reg'] eq 0"}checked{/if}>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="">开启评论</label>
+					<div>
+						是：
+						<input type="radio" name="is_comment" value="1" {if condition="$info['is_comment'] eq 1"}checked{/if}>
+						否：
+						<input type="radio" name="is_comment" value="0" {if condition="$info['is_comment'] eq 0"}checked{/if}>
+					</div>
+				</div>
+				<input type="submit" class="btn btn-info">
+				</form>
+
+			</div>
+
+
+		</div>
+	</div>
+
+{include file="public:footer"}
+

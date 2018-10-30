@@ -31,6 +31,13 @@ class Base extends Controller
 
 		//检测已经登录的用户是否拥有后台访问的权限
 		$this->checkAdminUserAuth();
+
+		//网站设置的变量置换
+		$website = $this->getWebsiteInfo();
+		//判断网站是否已经关闭
+		$this->checkWebSiteOpen($website);
+
+		$this->assign('website',$website);
 	}
 
 	//获取列表的方法
@@ -132,5 +139,25 @@ class Base extends Controller
 			->order('publish_date', 'desc')
 			->select()
 			);
+	}
+
+	//获取网站的基本配置信息
+	public function getWebsiteInfo()
+	{
+		return Db::name('website')->find();
+	}
+
+	//关闭网站
+	private function checkWebSiteOpen($website)
+	{
+		if($website['is_open'] != 1)
+		{
+			if(MODULE_NAME != 'admin')
+			{
+				header("content-type:text/html;charset=utf-8");
+				echo '<b>网站已关闭</b>';
+				exit;
+			}
+		}
 	}
 }
